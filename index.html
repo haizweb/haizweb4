@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>FS 50 — Elegant Contours</title>
+  <meta name="description" content="FS 50 — an automatic watch told in light, metal and motion. A scroll-driven WebGL experience built with Three.js." />
+  <meta name="theme-color" content="#ecebe6" />
+  <link rel="preload" href="./assets/fonts/montserrat-var-latin.woff" as="font" type="font/woff" crossorigin />
+  <link rel="stylesheet" href="./src/styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main id="app">
+    <!-- full-bleed backgrounds: light paper + dark steel, wiped / cross-faded by the timeline -->
+    <div id="bg" aria-hidden="true">
+      <div class="bg bg--light"></div>
+      <div class="bg bg--dark"></div>
+      <div class="bg bg--grain"></div>
+    </div>
+
+    <!-- typography that sits BEHIND the 3D canvas -->
+    <div id="stage">
+      <section class="layer hero" data-layer="hero">
+        <h1 class="hero__title">
+          <span class="hero__line"><span>ELEGANT</span></span>
+          <span class="hero__line"><span>CONTOURS</span></span>
+        </h1>
+        <p class="hero__text">The subtly curved case and forward-leaning lugs flow into the bracelet, shaping a refined silhouette that rests effortlessly on the wrist.</p>
+      </section>
+
+      <section class="layer statement statement--dark" data-layer="st1">
+        <p class="statement__label">FS—50R</p>
+        <p class="statement__row statement__row--the"><span>THE</span></p>
+        <p class="statement__row"><span>PRECISELY</span></p>
+        <p class="statement__row"><span>AUTOMATIC</span></p>
+        <p class="statement__row"><span>MOVEMENT</span></p>
+      </section>
+
+      <section class="layer heart" data-layer="heart">
+        <h2 class="heart__title"><span>MECHANICAL</span><span>HEART</span></h2>
+      </section>
+
+      <section class="layer statement statement--light" data-layer="st2">
+        <p class="statement__label">FS—50R</p>
+        <p class="statement__row statement__row--the"><span>THE</span></p>
+        <p class="statement__row"><span>TIMELESS</span></p>
+        <p class="statement__row"><span>AUTOMATIC</span></p>
+      </section>
+
+      <section class="layer final" data-layer="final">
+        <div class="final__arc" aria-hidden="true">
+          <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+            <path class="final__sector" d="" />
+            <path class="final__stroke" d="" />
+          </svg>
+        </div>
+        <div class="final__big" aria-label="FS 50">
+          <span class="final__fs">FS</span>
+          <span class="final__num">50</span>
+        </div>
+        <p class="final__model"><span>MODEL</span><strong>146GR</strong></p>
+      </section>
+    </div>
+
+    <canvas id="gl" aria-label="Interactive 3D watch"></canvas>
+
+    <!-- small copy that sits ABOVE the canvas -->
+    <div id="front">
+      <div class="layer front-st1" data-layer="st1-copy">
+        <p class="micro__label">Calibre 146</p>
+        <p class="micro__text">A self-winding calibre that draws its energy from the motion of the wrist and keeps time with quiet precision.</p>
+      </div>
+      <div class="layer front-heart" data-layer="heart-copy">
+        <h3 class="micro__label">Automatic Movement</h3>
+        <p class="micro__text">The movement regulates the balance wheel for steady, precise timekeeping, wound by a rotor that never rests.</p>
+      </div>
+    </div>
+
+    <div id="cursor" aria-hidden="true"><span>DRAG</span></div>
+  </main>
+
+  <!-- tall spacer that drives the scroll timeline -->
+  <div id="scroll-space" aria-hidden="true"></div>
+
+  <noscript><p style="position:fixed;inset:0;display:grid;place-items:center;font-family:sans-serif">This experience needs JavaScript and WebGL.</p></noscript>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../assets/fonts/montserrat-var-latin.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --paper: #ecebe6;
+  --paper-hi: #f5f4f0;
+  --paper-lo: #d8d6ce;
+  --ink: #2a2c31;
+  --ink-soft: #6b6d72;
+  --navy: #1b2540;
+  --on-dark: #d2d5db;
+  --font: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --wipe: -45%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+}
+
+body.is-loading #app {
+  opacity: 0;
+}
+#app {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  transition: opacity 0.9s ease;
+}
+
+#bg,
+#stage,
+#front {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+#stage {
+  z-index: 1;
+}
+#front {
+  z-index: 3;
+}
+#gl {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: pan-y;
+}
+#scroll-space {
+  height: 1000vh;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ backgrounds */
+.bg {
+  position: absolute;
+  inset: 0;
+}
+.bg--light {
+  background: radial-gradient(130% 105% at 50% 26%, var(--paper-hi) 0%, var(--paper) 52%, var(--paper-lo) 100%);
+}
+.bg--dark {
+  background: radial-gradient(95% 88% at 80% 12%, #747880 0%, #4b4f57 28%, #2b2e34 60%, #15171b 100%);
+  -webkit-mask-image: linear-gradient(172deg, #000 var(--wipe), transparent calc(var(--wipe) + 36%));
+  mask-image: linear-gradient(172deg, #000 var(--wipe), transparent calc(var(--wipe) + 36%));
+}
+.bg--grain {
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ------------------------------------------------------------------ layers */
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* hero */
+.hero__title {
+  position: absolute;
+  left: 50%;
+  top: 19vh;
+  margin: 0;
+  transform: translateX(-50%);
+  font-weight: 300;
+  font-size: min(7.8vh, 12vw);
+  line-height: 0.94;
+  letter-spacing: 0.012em;
+  color: var(--ink);
+  text-align: left;
+  white-space: nowrap;
+}
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding: 0.05em 0 0.03em;
+}
+.hero__line > span {
+  display: inline-block;
+  will-change: transform;
+}
+.hero__text {
+  position: absolute;
+  left: 50%;
+  top: calc(19vh + min(7.8vh, 12vw) * 1.98);
+  width: min(34vw, 440px);
+  min-width: 230px;
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: max(10px, 1.18vh);
+  line-height: 1.75;
+  letter-spacing: 0.03em;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+/* big statements */
+.statement {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15vh 7vw 0;
+}
+.statement__label {
+  margin: 0 0 0.6vh;
+  font-weight: 300;
+  font-size: min(9.4vh, 9vw);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.statement__row {
+  margin: 0;
+  font-weight: 300;
+  font-size: min(15.5vh, 14vw);
+  line-height: 0.98;
+  letter-spacing: -0.004em;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0.03em 0.04em;
+}
+.statement__row > span {
+  display: inline-block;
+  will-change: transform;
+}
+.statement__row--the {
+  align-self: flex-end;
+  margin-right: 12vw;
+  font-size: min(12.5vh, 11vw);
+}
+.statement--dark {
+  color: var(--on-dark);
+}
+.statement--dark .statement__label {
+  color: rgba(210, 213, 219, 0.55);
+}
+.statement--light {
+  color: #383b42;
+}
+.statement--light .statement__label {
+  color: rgba(56, 59, 66, 0.42);
+}
+
+/* mechanical heart */
+.heart__title {
+  position: absolute;
+  left: 11vw;
+  top: 34vh;
+  margin: 0;
+  text-align: center;
+  font-weight: 300;
+  font-size: min(6.4vh, 8vw);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  color: rgba(214, 217, 223, 0.64);
+}
+.heart__title span {
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0;
+}
+
+/* micro copy above the canvas */
+#front .layer {
+  inset: auto;
+}
+#front .front-st1 {
+  right: 8vw;
+  top: 66vh;
+  width: min(22vw, 300px);
+  min-width: 190px;
+  color: rgba(214, 217, 223, 0.8);
+}
+#front .front-heart {
+  left: 12vw;
+  top: 62vh;
+  width: min(24vw, 320px);
+  min-width: 200px;
+  color: rgba(214, 217, 223, 0.86);
+}
+.micro__label {
+  margin: 0 0 0.9vh;
+  font-size: max(10px, 1.3vh);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.micro__text {
+  margin: 0;
+  font-size: max(9.5px, 1.05vh);
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+  opacity: 0.82;
+}
+
+/* final */
+.final__arc {
+  --R: min(52vh, 80vw);
+  position: absolute;
+  left: 50%;
+  top: 54vh;
+  width: calc(var(--R) * 2);
+  height: calc(var(--R) * 2);
+  transform: translate(-50%, -50%);
+}
+.final__arc svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.final__sector {
+  fill: rgba(255, 255, 255, 0.46);
+}
+.final__stroke {
+  fill: none;
+  stroke: #2b2d33;
+  stroke-width: 1.3;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.8;
+}
+.final__big {
+  position: absolute;
+  left: 50%;
+  top: 55vh;
+  display: flex;
+  align-items: center;
+  gap: 0.56em;
+  transform: translate(-50%, -50%);
+  font-weight: 200;
+  font-size: min(calc(min(40vh, 62vw) / 0.7), 34vw);
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: var(--navy);
+}
+.final__big span {
+  display: block;
+  will-change: transform;
+}
+.final__model {
+  position: absolute;
+  left: 4.6vw;
+  bottom: 9vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: min(9.4vh, 11vw);
+  line-height: 0.95;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  color: #d4d3cd;
+}
+.final__model strong {
+  font-weight: 300;
+  color: #a4a5a9;
+}
+
+/* drag cursor */
+#cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 68px;
+  height: 68px;
+  margin: -34px 0 0 -34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(42, 44, 49, 0.32);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) scale(var(--s, 0.5));
+  will-change: transform, opacity;
+}
+body.is-drag #gl {
+  cursor: none;
+}
+@media (hover: none) {
+  #cursor {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ portrait / phones */
+@media (max-aspect-ratio: 17/20) {
+  .hero__title {
+    top: 15vh;
+    font-size: min(7vh, 13vw);
+  }
+  .hero__text {
+    top: calc(15vh + min(7vh, 13vw) * 1.98);
+    width: 74vw;
+    font-size: max(10.5px, 1.5vh);
+  }
+  .statement {
+    padding-top: 11vh;
+  }
+  .statement__row {
+    font-size: min(10.5vh, 15.5vw);
+  }
+  .statement__row--the {
+    font-size: min(8.5vh, 12.5vw);
+    margin-right: 6vw;
+  }
+  .statement__label {
+    font-size: min(5.5vh, 9vw);
+  }
+  .heart__title {
+    left: 8vw;
+    top: 11vh;
+    text-align: left;
+    font-size: min(6.4vh, 10vw);
+  }
+  #front .front-st1 {
+    right: 8vw;
+    left: 8vw;
+    top: 77vh;
+    width: auto;
+    min-width: 0;
+  }
+  #front .front-heart {
+    left: 8vw;
+    right: 8vw;
+    top: 76vh;
+    width: auto;
+    min-width: 0;
+  }
+  .micro__label {
+    font-size: max(11px, 1.5vh);
+  }
+  .micro__text {
+    font-size: max(10.5px, 1.4vh);
+  }
+  .final__arc {
+    top: 56vh;
+  }
+  .final__big {
+    top: 26vh;
+    gap: 0.22em;
+    font-size: 27vw;
+  }
+  .final__model {
+    left: 7vw;
+    bottom: 7vh;
+    font-size: min(8vh, 11vw);
+  }
+}
